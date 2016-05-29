@@ -50,6 +50,19 @@ type Raft struct {
 	// Look at the paper's Figure 2 for a description of what
 	// state a Raft server must maintain.
 
+    // persistent state on all servers
+    currentTerm int   // currentTermId
+    voteFor     int   // candidate's id or null if none
+    log         interface{}[] // command log entries
+
+    // volatile state on all servers
+    commitIndex int   // index of higest log entry known to be commited
+    lastAppendId int   // index of higest log entry applied to state machine
+
+    // volatile state on leaders
+    nextIndex   int[]  // for each server, index of the next log entry to send to the server
+    matchIndex  int[]  // for each server, index of the higest log entry known to be replicated on server
+
 }
 
 // return currentTerm and whether this server
